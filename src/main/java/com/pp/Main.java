@@ -1,8 +1,11 @@
 package com.pp;
 
+import com.pp.view.UserMenu;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        UserMenu userMenu = UserMenu.getInstance();
+        userMenu.startUserMenu();
     }
 }
