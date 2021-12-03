@@ -3,9 +3,11 @@ package com.pp.controller.menuItems;
 import com.pp.controller.Storage;
 import com.pp.controller.Van;
 import com.pp.model.Coffee;
+import org.apache.log4j.Logger;
 
 public class TransferCoffeeFromVanToStorageMenuItem extends MenuItem {
     private Storage storage = Storage.getInstance();
+    private Logger logger = Logger.getLogger("generalLogger");
 
     @Override
     public void execute() {
@@ -22,6 +24,7 @@ public class TransferCoffeeFromVanToStorageMenuItem extends MenuItem {
                 storage.addCoffee(selectedCoffee);
                 System.out.println("\n" + selectedCoffee.toString() + " була перенесена з фургону "
                         + selectedVan + " на склад");
+                logger.info(selectedCoffee.toString() + " transferred from " + selectedVan.toString());
             } else {
                 System.out.println("\nФургон порожній");
             }

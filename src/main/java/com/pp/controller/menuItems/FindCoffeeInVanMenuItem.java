@@ -4,12 +4,14 @@ import com.pp.controller.Storage;
 import com.pp.controller.Van;
 import com.pp.model.Coffee;
 import com.pp.view.InputScanner;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class FindCoffeeInVanMenuItem extends MenuItem {
     private InputScanner scanner = InputScanner.getInstance();
     private Storage storage = Storage.getInstance();
+    private Logger logger = Logger.getLogger("generalLogger");
 
     @Override
     public void execute() {
@@ -29,6 +31,7 @@ public class FindCoffeeInVanMenuItem extends MenuItem {
                     System.out.print("Введіть найбільший сорт: ");
                     maxSort = scanner.getNumber();
                 }
+                logger.info("searching cargo in " + selectedVan.toString());
                 printFoundedCargo(selectedVan.findCargo(minSort, maxSort));
             } else {
                 System.out.println("\nФургон порожній");

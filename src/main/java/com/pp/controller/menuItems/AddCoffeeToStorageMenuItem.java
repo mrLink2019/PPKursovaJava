@@ -3,10 +3,12 @@ package com.pp.controller.menuItems;
 import com.pp.controller.Storage;
 import com.pp.model.*;
 import com.pp.view.InputScanner;
+import org.apache.log4j.Logger;
 
 public class AddCoffeeToStorageMenuItem extends MenuItem {
     private InputScanner scanner = InputScanner.getInstance();
     private Storage storage = Storage.getInstance();
+    private Logger logger = Logger.getLogger("generalLogger");
 
     @Override
     public void execute() {
@@ -20,6 +22,7 @@ public class AddCoffeeToStorageMenuItem extends MenuItem {
         chosenCoffee.calculateFullVolume();
         chosenCoffee.packCoffee();
         storage.addCoffee(chosenCoffee);
+        logger.info("new Coffee added to storage");
     }
 
     private void printAddCoffeeMenu() {

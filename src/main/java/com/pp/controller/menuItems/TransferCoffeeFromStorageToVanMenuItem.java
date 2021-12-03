@@ -3,9 +3,11 @@ package com.pp.controller.menuItems;
 import com.pp.controller.Storage;
 import com.pp.controller.Van;
 import com.pp.model.Coffee;
+import org.apache.log4j.Logger;
 
 public class TransferCoffeeFromStorageToVanMenuItem extends MenuItem {
     private Storage storage = Storage.getInstance();
+    private Logger logger = Logger.getLogger("generalLogger");
 
     @Override
     public void execute() {
@@ -22,6 +24,7 @@ public class TransferCoffeeFromStorageToVanMenuItem extends MenuItem {
                     selectedVan.addCargo(selectedCoffee);
                     System.out.println(selectedCoffee.toString() + " була перенесена в фургон "
                             + selectedVan.toString());
+                    logger.info(selectedCoffee.toString() + " transferred to " + selectedVan.toString());
                 } else {
                     System.out.println("\nПомилка, в вибраному фургоні немає місця");
                 }

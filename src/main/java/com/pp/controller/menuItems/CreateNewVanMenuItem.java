@@ -2,14 +2,17 @@ package com.pp.controller.menuItems;
 
 import com.pp.controller.Storage;
 import com.pp.view.InputScanner;
+import org.apache.log4j.Logger;
 
 public class CreateNewVanMenuItem extends MenuItem {
     private InputScanner scanner = InputScanner.getInstance();
     private Storage storage = Storage.getInstance();
+    private Logger logger = Logger.getLogger("generalLogger");
 
     @Override
     public void execute() {
         storage.addVan(chooseVanName(), chooseVanVolume());
+        logger.info("new Van added to storage");
     }
 
     private String chooseVanName() {
