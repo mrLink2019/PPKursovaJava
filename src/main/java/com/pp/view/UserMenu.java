@@ -10,9 +10,9 @@ public class UserMenu {
         scanner = InputScanner.getInstance();
     }
 
-    public static com.pp.view.UserMenu getInstance() {
+    public static UserMenu getInstance() {
         if (instance == null) {
-            instance = new com.pp.view.UserMenu();
+            instance = new UserMenu();
         }
         return instance;
     }

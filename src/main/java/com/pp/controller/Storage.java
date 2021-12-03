@@ -16,18 +16,18 @@ public class Storage implements Serializable {
         scanner = InputScanner.getInstance();
     }
 
-    public static Storage getInstance() {
+    public static synchronized Storage getInstance() {
         if (instance == null) {
             instance = new Storage();
         }
         return instance;
     }
 
-    public void addVan(String name, int vanVolume) {
+    public synchronized void addVan(String name, int vanVolume) {
         vansStorage.add(new Van(name, vanVolume));
     }
 
-    public boolean deleteVan (Van selectedVan) {
+    public synchronized boolean deleteVan (Van selectedVan) {
         if(!vansStorage.isEmpty()) {
             return vansStorage.remove(selectedVan);
         }
@@ -37,11 +37,16 @@ public class Storage implements Serializable {
     public Van chooseVan() {
         int vanId;
         vanId = scanner.getNumber();
-        while (vanId <= 0 || vanId > vansStorage.size()) {
-            System.out.println("Неправильний ввід");
-            vanId = scanner.getNumber();
+        if(!this.vansStorage.isEmpty()) {
+            while (vanId <= 0 || vanId > vansStorage.size()) {
+                System.out.println("Неправильний ввід");
+                vanId = scanner.getNumber();
+            }
+            return vansStorage.get(vanId - 1);
+        } else {
+            System.out.println("Список пустий");
+            return null;
         }
-        return vansStorage.get(vanId-1);
     }
 
     public void printVans() {
@@ -54,11 +59,11 @@ public class Storage implements Serializable {
         }
     }
 
-    public void addCoffee(Coffee newCoffee) {
+    public synchronized void addCoffee(Coffee newCoffee) {
         coffeeStorage.add(newCoffee);
     }
 
-    public boolean deleteCoffee (Coffee selectedCoffee) {
+    public synchronized boolean deleteCoffee (Coffee selectedCoffee) {
         if(!coffeeStorage.isEmpty()) {
             return coffeeStorage.remove(selectedCoffee);
         }

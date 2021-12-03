@@ -12,11 +12,8 @@ public class DeleteVanMenuItem extends MenuItem {
         if(!storage.getVansStorage().isEmpty()) {
             System.out.print("\nВиберіть фургон для видалення: ");
             Van selectedVan = storage.chooseVan();
-            if (storage.deleteVan(selectedVan)) {
-                System.out.println("Фургон: " + selectedVan.toString() + " був видалений");
-            } else {
-                System.out.println("Упс, щось пішло не так");
-            }
+            storage.deleteVan(selectedVan);
+            System.out.println("Фургон: " + selectedVan.toString() + " був видалений");
         }
     }
 }

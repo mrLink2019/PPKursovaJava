@@ -51,8 +51,6 @@ public class AddCoffeeToStorageMenuItem extends MenuItem {
             case 4:
                 chosenCoffeeType = InstantBagCoffee.buyCoffee();
                 break;
-            default:
-                System.out.println("Неправильний ввід");
         }
         return chosenCoffeeType;
     }

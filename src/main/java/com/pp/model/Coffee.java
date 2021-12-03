@@ -5,15 +5,13 @@ import java.io.Serializable;
 public abstract class Coffee implements Serializable {
     private final String coffeeType;
     private final int sortsCount;
-    private int sort = 1, priceForL, fullPrice;
-    private double fullVolume;
+    private int sort = 1, priceForL, fullPrice = 0;
+    private double fullVolume = 0;
 
     Coffee (String coffeeType, int priceForL, int sortsCount) {
         this.coffeeType = coffeeType;
         this.priceForL = priceForL;
         this.sortsCount = sortsCount;
-        this.calculateFullVolume();
-        this.packCoffee();
     }
 
     public abstract void packCoffee();
@@ -40,8 +38,13 @@ public abstract class Coffee implements Serializable {
         return sortsCount;
     }
 
-    public void setSort(int sort) {
-        this.sort = sort;
+    public boolean setSort(int sort) {
+        if(sort > sortsCount) {
+            return false;
+        } else {
+            this.sort = sort;
+            return true;
+        }
     }
 
     public int getSort() {
@@ -60,7 +63,7 @@ public abstract class Coffee implements Serializable {
         return fullPrice;
     }
 
-    void setFullVolume(double fullVolume) {
+    public void setFullVolume(double fullVolume) {
         this.fullVolume = fullVolume;
     }
 

@@ -14,23 +14,25 @@ public class FindCoffeeInVanMenuItem extends MenuItem {
     @Override
     public void execute() {
         storage.printVans();
-        System.out.print("\nВиберіть фургон для пошуку вмісту: ");
-        Van selectedVan = storage.chooseVan();
-        if(!selectedVan.getCargo().isEmpty()) {
-            System.out.print("\nВведіть найменший сорт: ");
-            int minSort = scanner.getNumber();
-            System.out.print("Введіть найбільший сорт: ");
-            int maxSort = scanner.getNumber();
-            while(minSort > maxSort) {
-                System.out.println("Помилка, введіть заново");
+        if(!storage.getVansStorage().isEmpty()) {
+            System.out.print("\nВиберіть фургон для пошуку вмісту: ");
+            Van selectedVan = storage.chooseVan();
+            if(!selectedVan.getCargo().isEmpty()) {
                 System.out.print("\nВведіть найменший сорт: ");
-                minSort = scanner.getNumber();
+                int minSort = scanner.getNumber();
                 System.out.print("Введіть найбільший сорт: ");
-                maxSort = scanner.getNumber();
+                int maxSort = scanner.getNumber();
+                while(minSort > maxSort) {
+                    System.out.println("Помилка, введіть заново");
+                    System.out.print("\nВведіть найменший сорт: ");
+                    minSort = scanner.getNumber();
+                    System.out.print("Введіть найбільший сорт: ");
+                    maxSort = scanner.getNumber();
+                }
+                printFoundedCargo(selectedVan.findCargo(minSort, maxSort));
+            } else {
+                System.out.println("\nФургон порожній");
             }
-            printFoundedCargo(selectedVan.findCargo(minSort, maxSort));
-        } else {
-            System.out.println("\nФургон порожній");
         }
     }
 

@@ -11,8 +11,8 @@ import java.util.Comparator;
 public class Van implements Serializable {
     private String name;
     private ArrayList<Coffee> cargo;
-    private int cargoPrice, vanVolume;
-    private double cargoVolume;
+    private int cargoPrice = 0, vanVolume;
+    private double cargoVolume = 0;
     private static InputScanner scanner = InputScanner.getInstance();
 
     Van(String name, int vanVolume) {
@@ -31,11 +31,14 @@ public class Van implements Serializable {
         this.cargo.forEach((item -> {this.cargoVolume += item.getFullVolume();}));
     }
 
-    public void addCargo(Coffee cargo) {
+    public boolean addCargo(Coffee cargo) {
         if(hasVolumeForCargo(cargo)) {
             this.cargo.add(cargo);
             this.calculateCargoPrice();
             this.calculateCargoVolume();
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -78,11 +81,16 @@ public class Van implements Serializable {
     public Coffee chooseCargo() {
         int cargoId;
         cargoId = scanner.getNumber();
-        while (cargoId <= 0 || cargoId > cargo.size()) {
-            System.out.println("Неправильний ввід");
-            cargoId = scanner.getNumber();
+        if(!this.cargo.isEmpty()) {
+            while (cargoId <= 0 || cargoId > cargo.size()) {
+                System.out.println("Неправильний ввід");
+                cargoId = scanner.getNumber();
+            }
+            return cargo.get(cargoId - 1);
+        } else {
+            System.out.println("Список пустий");
+            return null;
         }
-        return cargo.get(cargoId - 1);
     }
 
     public void printCargo() {
