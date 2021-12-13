@@ -33,44 +33,6 @@ public class VanTests {
         System.setOut(systemOut);
     }
 
-    @Test
-    @DisplayName("Test chooseCargo Van")
-    public void testChooseCargo() {
-        Storage storage = Storage.getInstance();
-        storage.addVan("test", 50);
-        Coffee testCoffee1 = BeanCoffee.buyCoffee();
-        testCoffee1.setSort(1); testCoffee1.setFullPrice(450);
-        testCoffee1.calculateFullVolume(); testCoffee1.packCoffee();
-
-        Assertions.assertNull(storage.getVansStorage().get(0).chooseCargo());
-        storage.getVansStorage().get(0).addCargo(testCoffee1);
-        Assertions.assertEquals(storage.getVansStorage().get(0).chooseCargo(), testCoffee1);
-        Assertions.assertEquals(storage.getVansStorage().get(0).chooseCargo(), testCoffee1);
-        Assertions.assertEquals(storage.getVansStorage().get(0).chooseCargo(), testCoffee1);
-
-        storage.deleteVan(storage.getVansStorage().get(0));
-    }
-
-    @Test
-    @DisplayName("Test printCargo Van")
-    public void testPrintCargo() {
-        Storage storage = Storage.getInstance();
-        storage.addVan("test", 50);
-        Coffee testCoffee1 = BeanCoffee.buyCoffee();
-        testCoffee1.setSort(1); testCoffee1.setFullPrice(450);
-        testCoffee1.calculateFullVolume(); testCoffee1.packCoffee();
-
-        storage.getVansStorage().get(0).printCargo();
-        Assertions.assertEquals("Список пустий" + System.lineSeparator(), outContent.toString());
-        outContent.reset();
-        storage.getVansStorage().get(0).addCargo(testCoffee1);
-        storage.getVansStorage().get(0).printCargo();
-        Assertions.assertEquals("1 " + testCoffee1.toString() + System.lineSeparator(), outContent.toString());
-
-        storage.deleteVan(storage.getVansStorage().get(0));
-    }
-
-
     @ParameterizedTest
     @DisplayName("Test getName Van")
     @ValueSource(strings = { "v1", "v2", "test" })
@@ -113,7 +75,7 @@ public class VanTests {
         storage.getVansStorage().get(0).addCargo(testCoffee1);
         storage.getVansStorage().get(0).addCargo(testCoffee2);
         Assertions.assertEquals(storage.getVansStorage().get(0).findCargo(0, 0), new ArrayList<Coffee>());
-        ArrayList<Coffee> testList1 = new ArrayList<Coffee>();
+        ArrayList<Coffee> testList1 = new ArrayList<>();
         testList1.add(testCoffee1);
         Assertions.assertEquals(storage.getVansStorage().get(0).findCargo(1, 2), testList1);
         Assertions.assertEquals(storage.getVansStorage().get(0).findCargo(0, 1), testList1);
@@ -138,7 +100,7 @@ public class VanTests {
 
         storage.getVansStorage().get(0).addCargo(testCoffee2);
         storage.getVansStorage().get(0).sortCargo();
-        ArrayList <Coffee> sortedCargo = new ArrayList<Coffee>();
+        ArrayList <Coffee> sortedCargo = new ArrayList<>();
         sortedCargo.add(testCoffee2);
         sortedCargo.add(testCoffee1);
         Assertions.assertEquals(storage.getVansStorage().get(0).getCargo(), sortedCargo);
