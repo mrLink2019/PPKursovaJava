@@ -1,17 +1,49 @@
 package com.pp.model;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class BeanCoffee extends Coffee {
-    private BeanCoffee(String coffeeType, int priceForL, int sortsCount) {
-        super(coffeeType, priceForL, sortsCount);
+    private BeanCoffee(String coffeeType, int priceForL, int sortsCount, double packVolume) {
+        super(coffeeType, priceForL, sortsCount, packVolume);
     }
 
     @Override
-    public void packCoffee() {
-        super.setFullVolume(getFullVolume() + 0.3);
+    public int calculateSortPrice(int sort) {
+        return super.getPriceForL() / sort;
     }
 
     public static Coffee buyCoffee() {
-        return new BeanCoffee("Зернова кава", 350, 4);
+        SQLServerDataSource dataSource = new SQLServerDataSource();
+        dataSource.setUser("admin");
+        dataSource.setPassword("SQLExpress");
+        dataSource.setServerName("MON");
+        dataSource.setPortNumber(1433);
+        dataSource.setDatabaseName("CoffeeShop");
+        try (Connection connection = dataSource.getConnection()){
+            if(connection.isValid(1)) {
+                ResultSet resultSet = connection.prepareStatement(
+                        "SELECT * FROM dbo.CoffeeInfo WHERE coffeeType = 'Зернова кава'").executeQuery();
+                if(resultSet.next()) {
+                    String coffeeType = resultSet.getString(2);
+                    int priceForL = resultSet.getInt(3);
+                    int sortsCount = resultSet.getInt(4);
+                    double packVolume = resultSet.getDouble(5);
+                    return new BeanCoffee(coffeeType, priceForL, sortsCount, packVolume);
+                }
+            } else {
+                throw new SQLException("connection isn't valid");
+            }
+        } catch (SQLServerException SQLEx) {
+            SQLEx.printStackTrace();
+        } catch (SQLException SQLEx) {
+            SQLEx.printStackTrace();
+        }
+        return null;
     }
-
 }

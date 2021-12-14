@@ -5,29 +5,31 @@ import java.io.Serializable;
 public abstract class Coffee implements Serializable {
     private final String coffeeType;
     private final int sortsCount;
+    private final double packVolume;
     private int sort = 1, priceForL, fullPrice = 0;
     private double fullVolume = 0;
 
-    Coffee (String coffeeType, int priceForL, int sortsCount) {
+    Coffee (String coffeeType, int priceForL, int sortsCount, double packVolume) {
         this.coffeeType = coffeeType;
         this.priceForL = priceForL;
         this.sortsCount = sortsCount;
+        this.packVolume = packVolume;
     }
 
-    public abstract void packCoffee();
+    public abstract int calculateSortPrice(int sort);
+
+    public void packCoffee() {
+        this.fullVolume += packVolume;
+    }
 
     public void calculateFullVolume() {
         this.fullVolume = Math.round(((double) this.fullPrice / calculateSortPrice(this.sort)) * 100.0) / 100.0;
     }
 
-    public int calculateSortPrice(int sort) {
-        return this.priceForL / sort;
-    }
-
     @Override
     public String toString() {
         return coffeeType + " " + sort + " сорту, ціна за 1л " + calculateSortPrice(sort) +
-                ", загальна ціна " + fullPrice + ", об'єм " + fullVolume + "л";
+                ", загальна ціна " + fullPrice + ", об'єм " + (fullVolume* 100.00) / 100.00 + "л";
     }
 
     public String getCoffeeType() {
